@@ -55,7 +55,10 @@ namespace WebApi.Controllers
 						},
 						Quantity = item.quantity
 					});
-                return Ok(Guid.NewGuid().ToString())
+		StripeConfiguration.ApiKey = ConfigurationManager.AppSettings["CheckoutSession"];
+                var service = new SessionService();
+                Stripe.Checkout.Session session = service.Create(sessionCreateOptions);
+                return Ok(session.Id.ToString())
             });
         }
     }
